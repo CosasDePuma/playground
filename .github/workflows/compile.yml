@@ -16,13 +16,14 @@ jobs:
                 submodules: recursive
             
             - name: Setup .NET Core
-              uses: actions/setup-dotnet@v1
+              uses: actions/setup-dotnet@v4
               with:
-                dotnet-version: 5.x
+                dotnet-version: 5.0
             
             - name: Restore dependencies
               run: dotnet restore
+              working-directory: ./windows/seatbelt
 
             - name: Build the tools
               run: dotnet build --configuration Release
-              working-directory: windows/seatbelt
+              working-directory: ./windows/seatbelt
