@@ -1,0 +1,25 @@
+---
+name: Compile the tools
+
+on:
+    push:         { branches: [ main ] }
+    pull_request: { branches: [ main ] }
+
+jobs:
+    dotnet:
+        runs-on: windows-2019
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+            
+            - name: Setup .NET Core
+              uses: actions/setup-dotnet@v1
+              with:
+                dotnet-version: 4.x
+            
+            - name: Restore dependencies
+              run: dotnet restore
+
+            - name: Build the tools
+              run: dotnet build --configuration Release
+              working-directory: windows/seatbelt

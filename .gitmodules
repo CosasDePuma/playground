@@ -1,0 +1,3 @@
+[submodule "seatbelt"]
+	path = windows/seatbelt
+	url = https://github.com/GhostPack/Seatbelt
