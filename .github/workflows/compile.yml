@@ -15,15 +15,9 @@ jobs:
                 fetch-depth: 1
                 submodules: recursive
             
-            - name: Setup .NET Core
-              uses: actions/setup-dotnet@v4
-              with:
-                dotnet-version: 5.0
-            
-            - name: Restore dependencies
-              run: dotnet restore
-              working-directory: ./windows/seatbelt
+            - name: Setup MSBuild
+              uses: microsoft/setup-msbuild@v2
 
-            - name: Build the tools
-              run: dotnet build --configuration Release
-              working-directory: ./windows/seatbelt
+            - name: Build the solution
+              run: msbuild /p:Configuration=Release
+              working-directory: windows/seatbelt
