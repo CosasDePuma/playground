@@ -1,0 +1,79 @@
+---
+rules:
+  anchors:
+    forbid-undeclared-aliases: true
+    forbid-duplicated-anchors: false
+    forbid-unused-anchors: false
+  braces:
+    forbid: false
+    min-spaces-inside: 1
+    max-spaces-inside: 1
+    min-spaces-inside-empty: 0
+    max-spaces-inside-empty: 0
+  brackets:
+    forbid: false
+    min-spaces-inside: 1
+    max-spaces-inside: 1
+    min-spaces-inside-empty: 0
+    max-spaces-inside-empty: 0
+  colons:
+    max-spaces-before: 0
+    max-spaces-after: -1
+  commas:
+    max-spaces-before: 0
+    min-spaces-after: 1
+    max-spaces-after: 1
+  comments:
+    require-starting-space: true
+    ignore-shebangs: true
+    min-spaces-from-content: 2
+  comments-indentation: {}
+  document-end:
+    present: true
+  document-start:
+    present: true
+  empty-lines:
+    max: 1
+    max-start: 0
+    max-end: 0
+  empty-values:
+    forbid-in-block-mappings: true
+    forbid-in-flow-mappings: true
+    forbid-in-block-sequences: true
+  float-values:
+    forbid-inf: true
+    forbid-nan: true
+    forbid-scientific-notation: true
+    require-numeral-before-decimal: true
+  hyphens:
+    max-spaces-after: 1
+  indentation:
+    spaces: 'consistent'
+    indent-sequences: true
+    check-multi-line-strings: true
+  key-duplicates:
+    forbid-duplicated-merge-keys: false
+  key-ordering: 'disable'
+  line-length:
+    level: 'warning'
+    max: 120
+    allow-non-breakable-words: true
+    allow-non-breakable-inline-mappings: true
+  new-line-at-end-of-file: {}
+  new-lines:
+    type: 'platform'
+  octal-values:
+    forbid-implicit-octal: true
+    forbid-explicit-octal: true
+  quoted-strings:
+    quote-type: 'single'
+    required: true
+    extra-required: []
+    extra-allowed: []
+    allow-quoted-quotes: true
+    check-keys: false
+  trailing-spaces: {}
+  truthy:
+    allowed-values: [ 'true', 'false' ]
+    check-keys: false
+...
