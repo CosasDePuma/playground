@@ -19,3 +19,6 @@
 [submodule "mimikatz"]
 	path = windows/Mimikatz
 	url = https://github.com/gentilkiwi/mimikatz
+[submodule "powersploit"]
+	path = windows/PowerSploit
+	url = https://github.com/PowerShellMafia/PowerSploit

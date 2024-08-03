@@ -83,7 +83,7 @@ jobs:
   powershell:
     runs-on: 'ubuntu-latest'
     strategy:
-      matrix: { project: [ 'MailSniper', 'PowerLurk', 'PowerSharpPack' ] }
+      matrix: { project: [ 'MailSniper', 'PowerLurk', 'PowerSharpPack', 'PowerSploit' ] }
     steps:
       - name: 'Checkout code'
         uses: 'actions/checkout@v4'
@@ -122,6 +122,10 @@ jobs:
 
       - name: 'Extra steps'
         run: |
+          # Mimikatz
+          echo 'Copying the Mimikatz powershell version to Mimikatz directory'
+          cp ./PowerSploit/Exfiltration/Invoke-Mimikatz.ps1 ./Mimikatz/
+
           # Seatbelt
           echo 'Copying the Seatbelt powershell version to Seatbelt directory'
           cp ./PowerSharpPack/Invoke-Seatbelt.ps1 ./Seatbelt/
