@@ -69,8 +69,8 @@ jobs:
 
       - name: 'Build the solution'
         run: |
-          msbuild /m /t:Build /p:Configuration=Release /p:Platform="x64"
           msbuild /m /t:Build /p:Configuration=Release /p:Platform="Any CPU"
+          if (-not $?) { msbuild /m /t:Build /p:Configuration=Release /p:Platform="x64" }
         working-directory: 'windows/${{ matrix.project }}'
 
       - name: 'Archive the artifacts'
