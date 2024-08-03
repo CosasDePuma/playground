@@ -24,8 +24,17 @@ jobs:
         uses: 'NuGet/setup-nuget@v2'
 
       - name: 'Restore the solution'
-        run: 'nuget restore'
+        run: 'nuget restore ${{ matrix.project }}.sln'
         working-directory: 'windows/${{ matrix.project }}'
+      
+      - name: 'Pre-hooks'
+        run: |
+          # SharPersist
+          if ('${{ matrix.project }}' -eq 'SharPersist') {
+              Write-Host 'Installing SharPersist dependencies'
+              Install-Package -Name Costura.Fody -RequiredVersion 3.3.3
+              Install-Package -Name TaskScheduler -RequiredVersion 2.8.11
+          }
 
       - name: 'Build the solution'
         run: 'msbuild /p:Configuration=Release'
