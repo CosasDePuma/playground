@@ -21,7 +21,7 @@ jobs:
         uses: 'microsoft/setup-msbuild@v2'
 
       - name: 'Build the solution'
-        run: 'msbuild /m /p:Configuration=Release /t:"${{ matrix.project }}".ToLower()'
+        run: 'msbuild /m /t:Build /p:Configuration=Release'
         working-directory: 'windows/${{ matrix.project }}'
 
       - name: 'Archive the artifacts'
