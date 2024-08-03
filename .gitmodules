@@ -22,3 +22,6 @@
 [submodule "rubeus"]
 	path = windows/Rubeus
 	url = https://github.com/GhostPack/Rubeus
+[submodule "powercat"]
+	path = windows/Powercat
+	url = https://github.com/besimorhino/powercat
