@@ -31,9 +31,12 @@ jobs:
         run: |
           # SharPersist
           if ('${{ matrix.project }}' -eq 'SharPersist') {
-              Write-Host 'Installing SharPersist dependencies'
-              nuget install Costura.Fody -Version 3.3.3 -Source 'https://api.nuget.org/v3/index.json'
-              nuget install TaskScheduler -Version 2.8.11 -Source 'https://api.nuget.org/v3/index.json'
+            Write-Host 'Installing SharPersist dependencies'
+            if (-Not (Test-Path -Path '.\packages')) {
+              New-Item -ItemType Directory -Path '..\packages'
+            }
+            nuget install Costura.Fody -Version 3.3.3 -Source 'https://api.nuget.org/v3/index.json' -OutputDirectory '..\packages'
+            nuget install TaskScheduler -Version 2.8.11 -Source 'https://api.nuget.org/v3/index.json' -OutputDirectory '..\packages'
           }
 
       - name: 'Build the solution'
