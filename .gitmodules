@@ -1,3 +1,6 @@
 [submodule "seatbelt"]
 	path = windows/Seatbelt
 	url = https://github.com/GhostPack/Seatbelt
+[submodule "powersharppack"]
+	path = windows/PowerSharpPack
+	url = https://github.com/S3cur3Th1sSh1t/PowerSharpPack
