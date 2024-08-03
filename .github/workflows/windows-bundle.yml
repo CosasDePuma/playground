@@ -9,7 +9,7 @@ jobs:
   csharp:
     runs-on: 'windows-2019'
     strategy:
-      matrix: { project: [ 'Seatbelt', 'SharPersist' ] }
+      matrix: { project: [ 'Seatbelt', 'SharPersist', 'SharpUp' ] }
     steps:
       - name: 'Checkout code'
         uses: 'actions/checkout@v4'
@@ -96,6 +96,14 @@ jobs:
           # Seatbelt
           echo 'Copying the Seatbelt powershell version to Seatbelt directory'
           cp ./PowerSharpPack/Invoke-Seatbelt.ps1 ./Seatbelt/
+
+          # SharPersist
+          echo 'Copying the SharPersist powershell version to SharPersist directory'
+          cp ./PowerSharpPack/Invoke-SharPersist.ps1 ./SharPersist/
+
+          # SharpUp
+          echo 'Copying the SharpUp powershell version to SharpUp directory'
+          cp ./PowerSharpPack/Invoke-SharpUp.ps1 ./SharpUp/
         working-directory: '/tmp/bundle/'
 
       - name: 'Upload the final artifact'

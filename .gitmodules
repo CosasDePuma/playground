@@ -10,3 +10,6 @@
 [submodule "sharpersist"]
 	path = windows/SharPersist
 	url = https://github.com/mandiant/SharPersist
+[submodule "sharpup"]
+	path = windows/SharpUp
+	url = https://github.com/GhostPack/SharpUp
