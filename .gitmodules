@@ -7,3 +7,6 @@
 [submodule "powersharppack"]
 	path = windows/PowerSharpPack
 	url = https://github.com/S3cur3Th1sSh1t/PowerSharpPack
+[submodule "sharpersist"]
+	path = windows/SharPersist
+	url = https://github.com/mandiant/SharPersist

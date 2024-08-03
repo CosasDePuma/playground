@@ -9,7 +9,7 @@ jobs:
   csharp:
     runs-on: 'windows-latest'
     strategy:
-      matrix: { project: [ 'Seatbelt' ] }
+      matrix: { project: [ 'Seatbelt', 'SharPersist' ] }
     steps:
       - name: 'Checkout code'
         uses: 'actions/checkout@v4'
