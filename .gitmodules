@@ -1,3 +1,6 @@
+[submodule "mailsniper"]
+	path = windows/MailSniper
+	url = https://github.com/dafthack/MailSniper
 [submodule "seatbelt"]
 	path = windows/Seatbelt
 	url = https://github.com/GhostPack/Seatbelt

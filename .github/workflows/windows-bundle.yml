@@ -34,7 +34,7 @@ jobs:
   powershell:
     runs-on: 'ubuntu-latest'
     strategy:
-      matrix: { project: [ 'PowerSharpPack' ] }
+      matrix: { project: [ 'MailSniper', 'PowerSharpPack' ] }
     steps:
       - name: 'Checkout code'
         uses: 'actions/checkout@v4'
