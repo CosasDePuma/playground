@@ -19,3 +19,6 @@
 [submodule "powersploit"]
 	path = windows/PowerSploit
 	url = https://github.com/PowerShellMafia/PowerSploit
+[submodule "rubeus"]
+	path = windows/Rubeus
+	url = https://github.com/GhostPack/Rubeus
