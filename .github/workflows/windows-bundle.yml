@@ -6,10 +6,35 @@ on:
   pull_request: { branches: [ 'main' ] }
 
 jobs:
+  c:
+    runs-on: 'windows-2019'
+    strategy:
+      matrix: { project: [ 'Mimikatz' ] }
+    steps:
+      - name: 'Checkout code'
+        uses: 'actions/checkout@v4'
+        with:
+          fetch-depth: 1
+          submodules: 'recursive'
+
+      - name: 'Setup MSBuild'
+        uses: 'microsoft/setup-msbuild@v2'
+
+      - name: 'Build the solution'
+        run: 'msbuild /p:Configuration=Release'
+        working-directory: 'windows/${{ matrix.project }}'
+
+      - name: 'Archive the artifacts'
+        uses: 'actions/upload-artifact@v4'
+        with:
+          name: '${{ matrix.project }}'
+          path: 'windows/${{ matrix.project }}/${{ matrix.project }}/bin/Release/*.exe'
+          if-no-files-found: 'error'
+
   csharp:
     runs-on: 'windows-2019'
     strategy:
-      matrix: { project: [ 'Mimikatz', 'Seatbelt', 'SharPersist', 'SharpUp' ] }
+      matrix: { project: [ 'Seatbelt', 'SharPersist', 'SharpUp' ] }
     steps:
       - name: 'Checkout code'
         uses: 'actions/checkout@v4'
