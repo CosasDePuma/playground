@@ -45,7 +45,7 @@ jobs:
       - name: 'Copy all the PWSH scripts'
         run: |
           mkdir -p /tmp/${{ matrix.project }}
-          cp -r ./**/*.ps1 /tmp/${{ matrix.project }}/
+          find . -type f -name '*.ps1' -exec cp {} /tmp/${{ matrix.project }}/ \;
         working-directory: 'windows/${{ matrix.project }}'
 
       - name: 'Archive the artifacts'
