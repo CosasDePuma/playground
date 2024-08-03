@@ -9,7 +9,7 @@ jobs:
   csharp:
     runs-on: 'windows-2019'
     strategy:
-      matrix: { project: [ 'Seatbelt', 'SharPersist', 'SharpUp' ] }
+      matrix: { project: [ 'Mimikatz', 'Seatbelt', 'SharPersist', 'SharpUp' ] }
     steps:
       - name: 'Checkout code'
         uses: 'actions/checkout@v4'
@@ -48,13 +48,13 @@ jobs:
         uses: 'actions/upload-artifact@v4'
         with:
           name: '${{ matrix.project }}'
-          path: 'windows/${{ matrix.project }}/${{ matrix.project }}/bin/Release/${{ matrix.project }}.exe'
+          path: 'windows/${{ matrix.project }}/${{ matrix.project }}/bin/Release/*.exe'
           if-no-files-found: 'error'
 
   powershell:
     runs-on: 'ubuntu-latest'
     strategy:
-      matrix: { project: [ 'MailSniper', 'PowerSharpPack' ] }
+      matrix: { project: [ 'MailSniper', 'PowerLurk', 'PowerSharpPack' ] }
     steps:
       - name: 'Checkout code'
         uses: 'actions/checkout@v4'

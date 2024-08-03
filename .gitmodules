@@ -13,3 +13,9 @@
 [submodule "sharpup"]
 	path = windows/SharpUp
 	url = https://github.com/GhostPack/SharpUp
+[submodule "powerlurk"]
+	path = windows/PowerLurk
+	url = https://github.com/Sw4mpf0x/PowerLurk
+[submodule "mimikatz"]
+	path = windows/Mimikatz
+	url = https://github.com/gentilkiwi/mimikatz
