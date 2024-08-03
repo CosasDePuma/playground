@@ -64,12 +64,19 @@ jobs:
         with:
           path: '/tmp/bundle/'
           pattern: '*'
-          merge-multiple: true
+          merge-multiple: false
 
       - name: 'Remove the temporary artifacts'
         uses: 'geekyeggo/delete-artifact@v5'
         with:
           name: '*'
+
+      - name: 'Extra steps'
+        run: |
+          # Seatbelt
+          echo 'Copying the Seatbelt powershell version to Seatbelt directory'
+          cp ./PowerSharpPack/Invoke-Seatbelt.ps1 ./Seatbelt/
+        working-directory: '/tmp/bundle/'
 
       - name: 'Upload the final artifact'
         uses: 'actions/upload-artifact@v4'
