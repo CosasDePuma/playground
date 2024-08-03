@@ -24,7 +24,7 @@ jobs:
         uses: 'NuGet/setup-nuget@v2'
 
       - name: 'Restore the solution'
-        run: 'nuget restore windows/${{ matrix.project }}/${{ matrix.project }}.sln'
+        run: 'nuget restore'
         working-directory: 'windows/${{ matrix.project }}'
 
       - name: 'Build the solution'
