@@ -28,7 +28,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: windows-${{ matrix.project }}
-          path: windows/${{ matrix.project }}/bin/Release/${{ matrix.project }}.exe
+          path: windows/${{ matrix.project }}/${{ matrix.project }}/bin/Release/${{ matrix.project }}.exe
           if-no-files-found: error
 
   bundle:
