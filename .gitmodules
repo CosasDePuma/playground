@@ -25,3 +25,6 @@
 [submodule "powercat"]
 	path = windows/Powercat
 	url = https://github.com/besimorhino/powercat
+[submodule "dcsyncer"]
+	path = windows/DCSyncer
+	url = https://github.com/notsoshant/DCSyncer

@@ -11,6 +11,7 @@ jobs:
     strategy:
       matrix:
         project:
+          - 'DCSyncer'
           - 'Rubeus'
           - 'Seatbelt'
           - 'SharPersist'
@@ -45,6 +46,7 @@ jobs:
             nuget install TaskScheduler -Version 2.8.11 -Source 'https://api.nuget.org/v3/index.json' -OutputDirectory '.\packages'
           }
         working-directory: 'windows/${{ matrix.project }}'
+        if: 'success() || failure()'
         # yamllint enable rule:indentation rule:line-length
 
       - name: 'Build the solution'
