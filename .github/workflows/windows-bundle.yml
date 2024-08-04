@@ -9,7 +9,12 @@ jobs:
   csharp:
     runs-on: 'windows-2019'
     strategy:
-      matrix: { project: [ 'Rubeus', 'Seatbelt', 'SharPersist', 'SharpUp' ] }
+      matrix:
+        project:
+          - 'Rubeus'
+          - 'Seatbelt'
+          - 'SharPersist'
+          - 'SharpUp'
     steps:
       - name: 'Checkout code'
         uses: 'actions/checkout@v4'
@@ -27,6 +32,7 @@ jobs:
         run: 'nuget restore ${{ matrix.project }}.sln'
         working-directory: 'windows/${{ matrix.project }}'
 
+        # yamllint disable rule:indentation rule:line-length
       - name: 'Pre-hooks'
         run: |
           # SharPersist
@@ -39,6 +45,7 @@ jobs:
             nuget install TaskScheduler -Version 2.8.11 -Source 'https://api.nuget.org/v3/index.json' -OutputDirectory '.\packages'
           }
         working-directory: 'windows/${{ matrix.project }}'
+        # yamllint enable rule:indentation rule:line-length
 
       - name: 'Build the solution'
         run: |
@@ -56,7 +63,14 @@ jobs:
   powershell:
     runs-on: 'ubuntu-latest'
     strategy:
-      matrix: { project: [ 'MailSniper', 'Powercat', 'PowerLurk', 'PowerSharpPack', 'PowerSploit' ] }
+      matrix:
+        project:
+          - 'Get-ServiceACL'
+          - 'MailSniper'
+          - 'Powercat'
+          - 'PowerLurk'
+          - 'PowerSharpPack'
+          - 'PowerSploit'
     steps:
       - name: 'Checkout code'
         uses: 'actions/checkout@v4'
@@ -97,7 +111,7 @@ jobs:
         run: |
           # Rubeus
           echo 'Copying the Rubeus powershell version to Rubeus directory'
-          cp ./PowerSploit/Exfiltration/Invoke-Rubeus.ps1 ./Rubeus/
+          cp ./PowerSharpPack/Invoke-Rubeus.ps1 ./Rubeus/
 
           # Seatbelt
           echo 'Copying the Seatbelt powershell version to Seatbelt directory'
