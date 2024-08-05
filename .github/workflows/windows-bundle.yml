@@ -53,6 +53,9 @@ jobs:
         run: |
           msbuild /m /t:Build /p:Configuration=Release /p:Platform="Any CPU"
           if (-not $?) { msbuild /m /t:Build /p:Configuration=Release /p:Platform="x64" }
+          Get-ChildItem -Path $sourcePath -Recurse -Filter *.exe | ForEach-Object {
+            Move-Item -Path $_.FullName -Destination $destinationPath
+          }
         working-directory: 'windows/${{ matrix.project }}'
 
       - name: 'Archive the artifacts'
