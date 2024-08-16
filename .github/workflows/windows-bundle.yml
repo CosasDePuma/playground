@@ -54,7 +54,7 @@ jobs:
           msbuild /m /t:Build /p:Configuration=Release /p:Platform="Any CPU"
           if (-not $?) { msbuild /m /t:Build /p:Configuration=Release /p:Platform="x64" }
           Get-ChildItem -Path ${{ matrix.project }}/bin/Release -Recurse -Filter *.exe | ForEach-Object {
-            Move-Item -Path $_.FullName -Destination $destinationPath
+            Move-Item -Path $_.FullName -Destination ${{ matrix.project }}/bin/Release/
           }
         working-directory: 'windows/${{ matrix.project }}'
 
