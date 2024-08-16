@@ -62,7 +62,7 @@ jobs:
         uses: 'actions/upload-artifact@v4'
         with:
           name: '${{ matrix.project }}'
-          path: 'windows/${{ matrix.project }}/${{ matrix.project }}/bin/Release/*.exe'
+          path: 'windows/${{ matrix.project }}/*.exe'
           if-no-files-found: 'error'
 
   powershell:
