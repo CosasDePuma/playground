@@ -1,0 +1,66 @@
+---
+name: "🚀 Release Hackpack"
+
+on:
+  workflow_run:
+    workflows:
+      - "🎒 Build and release Hackpack"
+      - "🦞 Build and release Bettercap Hackpack"
+    branches: ["main"]
+    types: [completed]
+  workflow_dispatch:
+
+jobs:
+
+  release:
+    name: "🚀 Create Release"
+    runs-on: "ubuntu-latest"
+    permissions:
+      contents: "write"
+
+    steps:
+      - name: "📥 Checkout code"
+        uses: "actions/checkout@v6"
+        with:
+          fetch-depth: 1
+
+      - name: "📥 Download Windows artifact"
+        run: |
+          run_id=$(gh run list --workflow windows.yml --branch main --status success --limit 1 --json databaseId -q '.[0].databaseId')
+          gh run download "$run_id" --name hackpack-windows --dir /tmp/hackpack
+        env:
+          GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: "📥 Download Bettercap artifact"
+        run: |
+          run_id=$(gh run list --workflow bettercap.yml --branch main --status success --limit 1 --json databaseId -q '.[0].databaseId')
+          gh run download "$run_id" --name bettercap-caplets --dir /tmp/bettercap
+        env:
+          GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: "🗜️ Zip Windows bundle"
+        run: "/usr/bin/zip -r /tmp/hackpack-windows ."
+        working-directory: "/tmp/hackpack"
+
+      - name: "🗑️ Cleanup old releases"
+        uses: "jay2610/delete-older-releases@1.4.0"
+        with:
+          keep_latest: 0
+          delete_tags: true
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: "🚀 Create GitHub Release"
+        uses: "softprops/action-gh-release@v3"
+        with:
+          name: "🎒 Hackpack!"
+          tag_name: "latest"
+          body_path: ".github/README.md"
+          make_latest: true
+          files: |-
+            /tmp/hackpack-windows.zip
+            /tmp/bettercap/bettercap-caplets.zip
+          draft: false
+          prerelease: false
+          token: "${{ secrets.GITHUB_TOKEN }}"
+...
