@@ -1,0 +1,6 @@
+sleep 1
+clear
+read domains Domains (FQDN): 
+set $ {blb}{fw}DHCPv6 ({env.domains}){reset} {bold}» {reset}
+set dhcp6.spoof.domains {env.domains}
+dhcp6.spoof on

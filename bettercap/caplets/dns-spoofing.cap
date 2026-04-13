@@ -1,0 +1,8 @@
+sleep 1
+clear
+read domains Domains (FQDN): 
+set $ {blb}{fw}DNS ({env.domains}){reset} {bold}» {reset}
+set dns.spoof.domains {env.domains}
+set dns.spoof.all true
+set dns.spoof on
+
