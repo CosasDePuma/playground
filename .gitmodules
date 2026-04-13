@@ -1,0 +1,40 @@
+[submodule "certify"]
+	path = windows/Certify
+	url = https://github.com/GhostPack/Certify
+	branch = main
+[submodule "mailsniper"]
+	path = windows/MailSniper
+	url = https://github.com/dafthack/MailSniper
+	branch = master
+[submodule "powercat"]
+	path = windows/Powercat
+	url = https://github.com/besimorhino/powercat
+	branch = master
+[submodule "powerlurk"]
+	path = windows/PowerLurk
+	url = https://github.com/Sw4mpf0x/PowerLurk
+	branch = master
+[submodule "powersharppack"]
+	path = windows/PowerSharpPack
+	url = https://github.com/S3cur3Th1sSh1t/PowerSharpPack
+	branch = master
+[submodule "powersploit"]
+	path = windows/PowerSploit
+	url = https://github.com/PowerShellMafia/PowerSploit
+	branch = master
+[submodule "rubeus"]
+	path = windows/Rubeus
+	url = https://github.com/GhostPack/Rubeus
+	branch = master
+[submodule "seatbelt"]
+	path = windows/Seatbelt
+	url = https://github.com/GhostPack/Seatbelt
+	branch = master
+[submodule "sharpersist"]
+	path = windows/SharPersist
+	url = https://github.com/mandiant/SharPersist
+	branch = master
+[submodule "sharpup"]
+	path = windows/SharpUp
+	url = https://github.com/GhostPack/SharpUp
+	branch = master
