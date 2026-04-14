@@ -1,0 +1,251 @@
+---
+name: "🎒 Hackpack"
+
+on:
+  push:         { branches: ["main"] }
+  schedule:     [{ cron: "0 0 1 * *" }]
+  workflow_dispatch:
+
+jobs:
+
+  # -------------------------------------------------
+  #       CSharp (C#) Build
+  # -------------------------------------------------
+
+  csharp:
+    name: "🔨 Compile ${{ matrix.project }}"
+    runs-on: "windows-2022"
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { project: "Certify",     platform: "Any CPU" }
+          - { project: "Rubeus",      platform: "Any CPU" }
+          - { project: "Seatbelt",    platform: "Any CPU" }
+          - { project: "SharPersist", platform: "Any CPU" }
+          - { project: "SharpUp",     platform: "Any CPU" }
+
+    steps:
+      - name: "📥 Checkout code"
+        uses: "actions/checkout@v6"
+        with:
+          fetch-depth: 1
+          submodules: "recursive"
+
+      - name: "🔧 Setup MSBuild"
+        uses: "microsoft/setup-msbuild@v3"
+
+      - name: "📦 Setup NuGet"
+        uses: "NuGet/setup-nuget@v3"
+
+      - name: "🛠️ Install .NET 4.0 Framework"
+        run: |-
+          Invoke-WebRequest -Uri "https://www.nuget.org/api/v2/package/Microsoft.NETFramework.ReferenceAssemblies.net40/1.0.3" -OutFile "${env:temp}\net4.zip"
+          Expand-Archive -Force -LiteralPath "${env:temp}\net4.zip" -DestinationPath "${env:temp}\net4"
+          [IO.Directory]::Delete("v4.0", $True)
+          Move-Item -Force -LiteralPath "${env:temp}\net4\build\.NETFramework\v4.0" -Destination "."
+        working-directory: "C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework"
+
+      - name: "🔄 Restore NuGet packages"
+        run: "nuget restore ${{ matrix.project }}.sln"
+        working-directory: "windows/${{ matrix.project }}"
+
+      - name: "📋 Install project-specific dependencies"
+        run: |
+          if (-Not (Test-Path ".\packages")) { New-Item -ItemType Directory -Path ".\packages" }
+          if ('${{ matrix.project }}' -eq 'SharPersist') {
+            nuget install Costura.Fody -Version 3.3.3 -Source 'https://api.nuget.org/v3/index.json' -OutputDirectory '.\packages'
+            nuget install TaskScheduler -Version 2.8.11 -Source 'https://api.nuget.org/v3/index.json' -OutputDirectory '.\packages'
+          }
+        working-directory: "windows/${{ matrix.project }}"
+
+      - name: "🏗️ Build solution"
+        run: |
+          $buildArgs = @('/m', '/t:Build', '/p:Configuration=Release', '/p:Platform=${{ matrix.platform }}')
+          msbuild @buildArgs
+          New-Item -ItemType Directory -Path ".\bundle" -Force
+          Get-ChildItem -Recurse -Filter *.exe | ForEach-Object { Move-Item $_.FullName .\bundle\ -Force }
+          if (Test-Path "..\PowerSharpPack\PowerSharpBinaries\Invoke-${{ matrix.project }}.ps1") {
+            Move-Item "..\PowerSharpPack\PowerSharpBinaries\Invoke-${{ matrix.project }}.ps1" .\bundle\ -Force
+          }
+        working-directory: "windows/${{ matrix.project }}"
+
+      - name: "📤 Upload artifact"
+        uses: "actions/upload-artifact@v4"
+        with:
+          name: "win-${{ matrix.project }}"
+          path: "windows/${{ matrix.project }}/bundle/"
+          if-no-files-found: "error"
+
+  # -------------------------------------------------
+  #       Inveigh (self-contained .NET)
+  # -------------------------------------------------
+
+  inveigh:
+    name: "🎣 Compile Inveigh (self-contained)"
+    runs-on: "windows-2022"
+
+    steps:
+      - name: "📥 Checkout code"
+        uses: "actions/checkout@v6"
+        with:
+          fetch-depth: 1
+          submodules: "recursive"
+
+      - name: "🏗️ Publish self-contained executable"
+        run: |
+          dotnet publish -c Release -r win-x64 --self-contained true `
+            -p:PublishSingleFile=true `
+            -p:IncludeNativeLibrariesForSelfExtract=true `
+            -o bundle/
+        working-directory: "windows/Inveigh"
+
+      - name: "📤 Upload artifact"
+        uses: "actions/upload-artifact@v4"
+        with:
+          name: "win-Inveigh"
+          path: "windows/Inveigh/bundle/Inveigh.exe"
+          if-no-files-found: "error"
+
+  # -------------------------------------------------
+  #       PowerShell (PWSH) Scripts
+  # -------------------------------------------------
+
+  powershell:
+    name: "📜 PowerShell ${{ matrix.project }}"
+    runs-on: "ubuntu-latest"
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - "Get-ServiceACL"
+          - "MailSniper"
+          - "Powercat"
+          - "PowerLurk"
+          - "PowerSharpPack"
+          - "PowerSploit"
+
+    steps:
+      - name: "📥 Checkout code"
+        uses: "actions/checkout@v6"
+        with:
+          fetch-depth: 1
+          submodules: "recursive"
+
+      - name: "📋 Collect PowerShell scripts"
+        run: |
+          mkdir -p "/tmp/${{ matrix.project }}"
+          find . -type f -name '*.ps1' -exec mv {} "/tmp/${{ matrix.project }}/" \;
+        working-directory: "windows/${{ matrix.project }}"
+
+      - name: "📤 Upload artifact"
+        uses: "actions/upload-artifact@v4"
+        with:
+          name: "win-${{ matrix.project }}"
+          path: "/tmp/${{ matrix.project }}/"
+          if-no-files-found: "error"
+
+  # -------------------------------------------------
+  #       Bettercap Caplets
+  # -------------------------------------------------
+
+  bettercap:
+    name: "🦞 Bundle Bettercap caplets"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - name: "📥 Checkout code"
+        uses: "actions/checkout@v6"
+        with:
+          fetch-depth: 1
+
+      - name: "🗜️ Zip Bettercap caplets"
+        run: "/usr/bin/zip -r /tmp/bettercap-caplets.zip ./bettercap/caplets/"
+
+      - name: "📤 Upload artifact"
+        uses: "actions/upload-artifact@v4"
+        with:
+          name: "bettercap-caplets"
+          path: "/tmp/bettercap-caplets.zip"
+          if-no-files-found: "error"
+
+  # -------------------------------------------------
+  #       Windows Bundle
+  # -------------------------------------------------
+
+  bundle-windows:
+    name: "📦 Bundle Windows tools"
+    runs-on: "ubuntu-latest"
+    needs: ["csharp", "inveigh", "powershell"]
+
+    steps:
+      - name: "📥 Download all Windows artifacts"
+        uses: "actions/download-artifact@v4"
+        with:
+          path: "/tmp/bundle/"
+          pattern: "win-*"
+          merge-multiple: false
+
+      - name: "📤 Upload Windows bundle"
+        uses: "actions/upload-artifact@v4"
+        with:
+          name: "hackpack-windows"
+          path: "/tmp/bundle/"
+          compression-level: 9
+          if-no-files-found: "error"
+
+  # -------------------------------------------------
+  #       Release
+  # -------------------------------------------------
+
+  release:
+    name: "🚀 Create Release"
+    runs-on: "ubuntu-latest"
+    needs: ["bundle-windows", "bettercap"]
+    permissions:
+      contents: "write"
+
+    steps:
+      - name: "📥 Checkout code"
+        uses: "actions/checkout@v6"
+        with:
+          fetch-depth: 1
+
+      - name: "📥 Download Windows bundle"
+        uses: "actions/download-artifact@v4"
+        with:
+          name: "hackpack-windows"
+          path: "/tmp/hackpack/"
+
+      - name: "📥 Download Bettercap artifact"
+        uses: "actions/download-artifact@v4"
+        with:
+          name: "bettercap-caplets"
+          path: "/tmp/bettercap/"
+
+      - name: "🗜️ Zip Windows bundle"
+        run: "/usr/bin/zip -r /tmp/hackpack-windows.zip ."
+        working-directory: "/tmp/hackpack/"
+
+      - name: "🗑️ Cleanup old releases"
+        uses: "jay2610/delete-older-releases@1.4.0"
+        with:
+          keep_latest: 0
+          delete_tags: true
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: "🚀 Create GitHub Release"
+        uses: "softprops/action-gh-release@v3"
+        with:
+          name: "🎒 Hackpack!"
+          tag_name: "latest"
+          body_path: ".github/README.md"
+          make_latest: true
+          files: |-
+            /tmp/hackpack-windows.zip
+            /tmp/bettercap/bettercap-caplets.zip
+          draft: false
+          prerelease: false
+          token: "${{ secrets.GITHUB_TOKEN }}"
+...
