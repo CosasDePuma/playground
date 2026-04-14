@@ -11,7 +11,7 @@
     <img alt="GitHub Issues or Pull Requests" src="https://img.shields.io/github/issues/cosasdepuma/hackpack?style=for-the-badge"/>
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/cosasdepuma/hackpack?style=for-the-badge"/>
     <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/cosasdepuma/hackpack?style=for-the-badge"/>
-    <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/cosasdepuma/hackpack/release.yml?style=for-the-badge"/>
+    <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/cosasdepuma/hackpack/hackpack.yml?style=for-the-badge"/>
     <hr />
 
 ## 📎 Windows Hackpack
@@ -20,6 +20,7 @@
 | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
 | [Certify](https://github.com/GhostPack/Certify)                    | Active Directory certificate abuse.                                                                             |
 | [Get-ServiceACL](./windows/Get-ServiceACL/Get-ServiceACL.ps1)      | Retrieve the access control list (ACL) for a service running on a host.                                         |
+| [Inveigh](https://github.com/Kevin-Robertson/Inveigh)              | LLMNR, NBNS, mDNS and DNS spoofing and man-in-the-middle tool written in C#.                                    |
 | [MailSniper](https://github.com/dafthack/MailSniper)               | Toolset for performing analysis and attacks on mail services.                                                   |
 | [Powecat](https://github.com/besimorhino/powercat)                 | [Netcat](https://en.wikipedia.org/wiki/Netcat)-like written in PowerShell.                                      |
 | [PowerLurk](https://github.com/Sw4mpf0x/PowerLurk)                 | Toolset for building malicious WMI event subscriptions.                                                         |
