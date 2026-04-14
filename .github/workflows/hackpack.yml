@@ -20,6 +20,7 @@ jobs:
       matrix:
         include:
           - { project: "Certify"     }
+          - { project: "GodPotato"   }
           - { project: "Inveigh",     self_contained: true }
           - { project: "Rubeus"      }
           - { project: "Seatbelt"    }
@@ -68,9 +69,11 @@ jobs:
 
       - name: "🏗️ Build solution"
         if: "!matrix.self_contained"
+        env:
+          PLATFORM: ${{ matrix.platform || 'Any CPU' }}
         run: |
           $target = if (Test-Path "${{ matrix.project }}.sln") { "${{ matrix.project }}.sln" } else { "${{ matrix.project }}.csproj" }
-          $buildArgs = @('/m', '/t:Build', '/p:Configuration=Release', '/p:Platform=${{ matrix.platform || ''Any CPU'' }}', $target)
+          $buildArgs = @('/m', '/t:Build', '/p:Configuration=Release', "/p:Platform=$env:PLATFORM", $target)
           msbuild @buildArgs
           New-Item -ItemType Directory -Path ".\bundle" -Force
           Get-ChildItem -Recurse -Filter *.exe | ForEach-Object { Move-Item $_.FullName .\bundle\ -Force }

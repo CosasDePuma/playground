@@ -20,6 +20,7 @@
 | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
 | [Certify](https://github.com/GhostPack/Certify)                    | Active Directory certificate abuse.                                                                             |
 | [Get-ServiceACL](./windows/Get-ServiceACL/Get-ServiceACL.ps1)      | Retrieve the access control list (ACL) for a service running on a host.                                         |
+| [GodPotato](https://github.com/BeichenDream/GodPotato)             | Windows privilege escalation via token impersonation, supporting Windows Server 2012 to 2022.                   |
 | [Inveigh](https://github.com/Kevin-Robertson/Inveigh)              | LLMNR, NBNS, mDNS and DNS spoofing and man-in-the-middle tool written in C#.                                    |
 | [MailSniper](https://github.com/dafthack/MailSniper)               | Toolset for performing analysis and attacks on mail services.                                                   |
 | [Powecat](https://github.com/besimorhino/powercat)                 | [Netcat](https://en.wikipedia.org/wiki/Netcat)-like written in PowerShell.                                      |

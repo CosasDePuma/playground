@@ -2,6 +2,10 @@
 	path = windows/Certify
 	url = https://github.com/GhostPack/Certify
 	branch = main
+[submodule "godpotato"]
+	path = windows/GodPotato
+	url = https://github.com/BeichenDream/GodPotato
+	branch = main
 [submodule "inveigh"]
 	path = windows/Inveigh
 	url = https://github.com/Kevin-Robertson/Inveigh
