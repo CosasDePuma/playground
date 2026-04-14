@@ -91,7 +91,11 @@ jobs:
         run: |
           $csproj = "$env:PROJECT\$env:PROJECT.csproj"
           $fArg = if ($env:FRAMEWORK) { @('-f', $env:FRAMEWORK) } else { @() }
-          dotnet publish $csproj -c Release -r win-x64 -p:PublishOption=TrimmedSingle -o bundle/ @fArg
+          dotnet publish $csproj -c Release -r win-x64 -p:PublishOption=TrimmedSingle -p:DebugType=None -o bundle/ @fArg
+          Get-ChildItem -Path ".\bundle" -Filter "*.pdb" | Remove-Item -Force
+          if (Test-Path "..\PowerSharpPack\PowerSharpBinaries\Invoke-${{ matrix.project }}.ps1") {
+            Move-Item "..\PowerSharpPack\PowerSharpBinaries\Invoke-${{ matrix.project }}.ps1" .\bundle\ -Force
+          }
         working-directory: "windows/${{ matrix.project }}"
 
       - name: "📤 Upload artifact"
