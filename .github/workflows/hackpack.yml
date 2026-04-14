@@ -20,8 +20,8 @@ jobs:
       matrix:
         include:
           - { project: "Certify"     }
-          - { project: "GodPotato"   }
-          - { project: "Inveigh",     self_contained: true }
+          - { project: "GodPotato",   platform: "AnyCPU" }
+          - { project: "Inveigh",     self_contained: true, framework: "net10.0" }
           - { project: "Rubeus"      }
           - { project: "Seatbelt"    }
           - { project: "SharPersist", packages: "Costura.Fody:3.3.3 TaskScheduler:2.8.11" }
@@ -85,11 +85,13 @@ jobs:
 
       - name: "🏗️ Publish self-contained executable"
         if: "matrix.self_contained"
+        env:
+          FRAMEWORK: ${{ matrix.framework || '' }}
+          PROJECT: ${{ matrix.project }}
         run: |
-          dotnet publish -c Release -r win-x64 --self-contained true `
-            -p:PublishSingleFile=true `
-            -p:IncludeNativeLibrariesForSelfExtract=true `
-            -o bundle/
+          $csproj = "$env:PROJECT\$env:PROJECT.csproj"
+          $fArg = if ($env:FRAMEWORK) { @('-f', $env:FRAMEWORK) } else { @() }
+          dotnet publish $csproj -c Release -r win-x64 -p:PublishOption=TrimmedSingle -o bundle/ @fArg
         working-directory: "windows/${{ matrix.project }}"
 
       - name: "📤 Upload artifact"
